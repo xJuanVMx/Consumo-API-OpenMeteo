@@ -1,17 +1,16 @@
 import { obtenerCoordenadas, obtenerClima } from "./service.js";
-import { guardarDatos, cargarDatos } from "./persistance.js";
+import { setLocalStorageValue, getLocalStorageValue } from "./persistance.js";
 import { state } from "./state.js";
 
 export function iniciarApp(){
 
-    const guardado = cargarDatos();
+    const guardado = getLocalStorageValue("clima");
 
     if(guardado){
         mostrarClima(guardado.ciudad, guardado.clima);
     }
 
 }
-
 
 export async function manejarBusqueda(e){
 
@@ -33,7 +32,7 @@ export async function manejarBusqueda(e){
 
         mostrarClima(state.ciudad, state.clima);
 
-        guardarDatos(state);
+        setLocalStorageValue("clima", state);
 
     }catch(error){
 
@@ -43,7 +42,6 @@ export async function manejarBusqueda(e){
 
 }
 
-
 function mostrarClima(ciudad, clima){
 
     const contenedor = document.getElementById("resultado");
@@ -51,18 +49,19 @@ function mostrarClima(ciudad, clima){
     contenedor.innerHTML = `
         <div class="card">
             <h2>${ciudad}</h2>
-            <p>Temperatura: ${clima.temperature} °C</p>
-            <p>Viento: ${clima.windspeed} km/h</p>
-            <p>Código clima: ${clima.weathercode}</p>
-            <p> ${clima.time}</p>
+            <p> Temperatura: ${clima.temperature} °C</p>
+            <p> Viento: ${clima.windspeed} km/h</p>
+            <p> Codigo: ${clima.weathercode}</p>
+            <p> Hora: ${clima.time}</p>
         </div>
     `;
 }
-
 
 function mostrarError(mensaje){
 
     const contenedor = document.getElementById("resultado");
 
-    contenedor.innerHTML = `<p>${mensaje}</p>`;
+    contenedor.innerHTML = `
+        <p style="color:red;">${mensaje}</p>
+    `;
 }
