@@ -1,17 +1,11 @@
-export function guardarDatos(data){
-
-    localStorage.setItem("clima", JSON.stringify(data));
-
+export function setLocalStorageValue(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
 }
 
+export function getLocalStorageValue(key) {
+    return JSON.parse(localStorage.getItem(key));
+}
 
-export function cargarDatos(){
-
-    const data = localStorage.getItem("clima");
-
-    if(data){
-        return JSON.parse(data);
-    }
-
-    return null;
+export function clearLocalStorage() {
+    localStorage.clear();
 }
